@@ -1,5 +1,6 @@
 <?php
 return [
+    'Roqay Internship' => 'Roqay Internship',
     'Login' => 'Login',
     'Password' => 'Password',
     'E-mail' => 'E-mail',

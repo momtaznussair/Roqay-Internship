@@ -1,5 +1,6 @@
 <?php
 return [
+    'Roqay Internship' => 'تدريب شركة رقي',
     'Login' => 'تسجيل الدخول',
     'Password' => 'كلمة المرور',
     'E-mail' => 'البريد الإلكتروني',
