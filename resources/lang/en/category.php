@@ -1,0 +1,22 @@
+<?php
+return [
+    'Add New Category' => 'Add New Category',
+    'Category Name' => 'Category Name',
+    'Category Name' => 'Category Image',
+    'Name(English)' => 'Name (English)',
+    'Name(Arabic)' => 'Name (Arabic)',
+    'Operations' => 'Operations',
+    'Image' => 'Image',
+    'Delete Category' => "Delete Category",
+    'Edit Category' => "Edit Category",
+    'Add Success' => 'Category Added Successfully',
+    'Edit Success' => 'Category Updated Successfully',
+    'Delete Success' => 'Category Deleted Successfully',
+    'Please Enter Category Name In English' =>  'Please Enter Category Name (English)',
+    'Please Enter Category Name In Arabic' =>  'Please Enter Category Name (Arabic)',
+    'Please Choose an Image to upload' => 'Please Choose an Image to upload',
+    'Name In English has aleady been taken' => 'Name  has already been taken (English)',
+    'Name In Arabic has aleady been taken' => 'Name has already been taken (Arabic)',
+    'Max' => 'Maximum image size is (512 MB)',
+    'mimes' => 'Unsupported file Format',
+];

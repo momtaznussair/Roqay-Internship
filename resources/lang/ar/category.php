@@ -1,0 +1,22 @@
+<?php
+return [
+    'Add New Category' => 'إضافة قسم',
+    'Category Name' => 'اسم القسم',
+    'Category Image' => 'صورة القسم',
+    'Name(English)' => 'الاسم (بالانجليزية)',
+    'Name(Arabic)' => 'الاسم (بالعربية)',
+    'Operations' => 'العمليات',
+    'Image' => 'الصورة',
+    'Delete Category' => "حذف القسم",
+    'Edit Category' => "تعديل القسم",
+    'Add Success' => 'تم إضافة القسم بنجاح',
+    'Edit Success' => 'تم تحديث القسم بنجاح',
+    'Delete Success' => 'تم حذف القسم بنجاح',
+    'Please Enter Category Name In English' =>  'يرجي إدخال اسم القسم (بالانجليزية)',
+    'Please Enter Category Name In Arabic' =>  'يرجى إدخال اسم القسم (بالعربية)',
+    'Please Choose an Image to upload' => 'يرجى اختيار الصورة',
+    'Name In English has aleady been taken' => 'هذا الاسم مسجل من قبل (الاسم بالانجليزية)',
+    'Name In Arabic has aleady been taken' => 'هذا الاسم مسجل من قبل (الاسم بالعربية)',
+    'Max' => 'حجم الصورة لا يجب ان يتعدي 512 MB',
+    'mimes' => 'صيغة الملف غير مدعومة',
+];
