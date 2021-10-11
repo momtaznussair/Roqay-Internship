@@ -3,15 +3,7 @@
 @section('title')
 	{{__('main-sidebar.Categories')}}
 @endsection
-@section('css')
-<!-- Internal Data table css -->
-<link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" />
-<link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
-<link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
-@endsection
+
 @section('page-header')
 				<!-- breadcrumb -->
 				<div class="breadcrumb-header justify-content-between">
@@ -21,7 +13,7 @@
 						</div>
 					</div>
 					<div class="d-flex my-xl-auto right-content">
-						
+
 					</div>
 				</div>
 				<!-- breadcrumb -->
@@ -37,23 +29,11 @@
 					</ul>
 				</div>
 				@endif
-				{{-- success message --}}
-				@if (session()->has('success'))
-				<script>
-					 window.onload = function() {
-						notif({
-							msg: "{{session()->get('success')}}",
-							type: "success"
-						})
-           			 }
-				</script>
-				@endif
-
-				<!-- row -->
+                <!-- row -->
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="card mg-b-20">
-							<div class="card-header pb-0">
+							<div class="card-header pb-0 mb-3">
 								<div class="d-flex justify-content-between">
 									<div class="col-sm-6 col-md-4 col-xl-3">
 											<a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#addModal">{{__('category.Add New Category')}}</a>
@@ -62,7 +42,7 @@
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
-									<table id="example1" class="table key-buttons text-md-nowrap" data-page-length="10">
+									<table id="categoriesTable" class="table text-md-nowrap">
 										<thead>
 											<tr class="text-center">
 												<th class="border-bottom-0">#</th>
@@ -74,16 +54,16 @@
 										<tbody>
 											@foreach ($categories as $category)
 											<tr class="text-center">
-												<td>{{$loop->iteration}}</td>
-												<td>{{$category->name}}</td>
-												<td>
+												<td class="align-middle">{{$loop->iteration}}</td>
+												<td class="align-middle">{{$category->name}}</td>
+												<td class="align-middle">
 													<img src="{{$category->image}}" alt="{{$category->name}}" width="40">
 												</td>
-												<td>
+												<td class="align-middle">
 														<a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
 														data-id="{{ $category->id }}" data-name_ar="{{ $category->name_ar }}"
 														data-name_en="{{ $category->name_en }}"	data-img="{{$category->image}}" data-toggle="modal"
-														href="#editModal" title="{{__('modal.Edit')}}"><i class="las la-pen"></i></a>	
+														href="#editModal" title="{{__('modal.Edit')}}"><i class="las la-pen"></i></a>
 
 														<a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
 														data-id="{{ $category->id }}" data-name="{{ $category->name }}"
@@ -92,9 +72,10 @@
 												</td>
 											</tr>
 											@endforeach
-										</tbody>
+                                        </tbody>
 									</table>
 								</div>
+                                <div class="row mx-3">{{$categories->links()}} </div>
 							</div>
 						</div>
 					</div>
@@ -121,7 +102,7 @@
 											<label for="name_en">{{__('category.Image')}} <span class="text-danger">* (png, jpg)</span></label>
 											<input type="file" class="form-control" id="img" name="img">
 										</div>
-										
+
 										<div class="modal-footer">
 											<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('modal.Cancel')}}</button>
 											<button class="btn ripple btn-primary" type="submit">{{__('modal.Confirm')}}</button>
@@ -134,7 +115,7 @@
 					{{--end of  add category modal --}}
 
 
-					{{-- edit a section modal --}}
+					{{-- edit  modal --}}
 					<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 					aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
@@ -165,8 +146,8 @@
 											<label for="name_en">{{__('category.Image')}} <span class="text-danger">* (png, jpg)</span></label>
 											<input type="file" class="form-control" id="img" name="img">
 										</div>
-										<div class="col">
-											<img src="" alt="" id="old_img" style="width: 3rem;">
+										<div class="col d-flex justify-content-center">
+											<img src="" alt="" id="old_img" style="width: 4rem;border: 1px solid black;">
 										</div>
 									</div>
 							</div>
@@ -179,7 +160,7 @@
 					</div>
 				</div>
 
-				{{-- end of edit a section modal --}}
+				{{-- end of edit  modal --}}
 
 
 				{{-- delete modal --}}
@@ -214,36 +195,6 @@
 		<!-- main-content closed -->
 @endsection
 @section('js')
-<!-- Internal Data tables -->
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
-@if (App::isLocale('ar'))
-<script>
-</script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTablesAr.js')}}"></script>
-@else
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTablesEn.js')}}"></script>
-@endif
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
-<!--Internal  Datatable js -->
-<script src="{{URL::asset('assets/js/table-data.js')}}"></script>
-<!-- Internal Select2 js-->
-<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
-<!-- Internal Modal js-->
-<script src="{{URL::asset('assets/js/modal.js')}}"></script>
-
 {{-- modals data --}}
 {{-- edit --}}
 <script>
@@ -258,7 +209,6 @@
         modal.find('.modal-body #old_name_en').val(name_en);
         modal.find('.modal-body #old_img').prop('src', img)
         modal.find('.modal-body #id').val(id);
-		// todo: display old image
     })
 </script>
 {{-- delete --}}
@@ -275,7 +225,7 @@
 
 {{-- add category form submission --}}
 <script>
-	$('#addForm').submit(function (e) { 
+	$('#addForm').submit(function (e) {
 		e.preventDefault();
 		let formData = new FormData(this);
 		$.ajax({
@@ -288,7 +238,7 @@
 				// hide modal and reset add form
 				$('#addForm').trigger("reset")
 				$('#addModal').modal('hide')
-				$('#example1').load(window.location.href + " #example1" );
+				$('#categoriesTable').load(window.location.href + " #categoriesTable" );
 				// notify user
 				notif({
 					msg: response.msg,
@@ -299,7 +249,7 @@
 			error: function(xhr, status, error) {
 				let result = ''
 				let errors = xhr.responseJSON.errors
-				$.each(errors, function (index, error) { 
+				$.each(errors, function (index, error) {
 					 result += `<p>${error}</p>`
 				});
 
@@ -318,14 +268,14 @@
 
 {{-- delete form submission --}}
 <script>
-		
+
 	$.ajaxSetup({
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
 
-	$('#deleteForm').submit(function (e) { 
+	$('#deleteForm').submit(function (e) {
 	e.preventDefault();
 	let formData = new FormData(this);
 	$.ajax({
@@ -336,7 +286,7 @@
 		contentType: false,
 		success: function (response) {
 			//refresh table
-			$('#example1').load(window.location.href + " #example1" );
+			$('#categoriesTable').load(window.location.href + " #categoriesTable" );
 			// hide modal
 			$('#deleteModal').modal('hide')
 			// notify user
@@ -352,7 +302,7 @@
 
 {{-- edit form submission --}}
 <script>
-	$('#editForm').submit(function (e) { 
+	$('#editForm').submit(function (e) {
 		e.preventDefault();
 		let formData = new FormData(this);
 		let id = formData.get('id')
@@ -365,7 +315,7 @@
 			success: function (response) {
 				// hide modal
 				console.log('success')
-				$('#example1').load(window.location.href + " #example1" );
+				$('#categoriesTable').load(window.location.href + " #categoriesTable" );
 				$('#editModal').modal('hide')
 				// notify user
 				notif({
@@ -377,7 +327,7 @@
 			error: function(xhr, status, error) {
 				let result = ''
 				let errors = xhr.responseJSON.errors
-				$.each(errors, function (index, error) { 
+				$.each(errors, function (index, error) {
 					 result += `<p>${error}</p>`
 				});
 

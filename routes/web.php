@@ -26,6 +26,8 @@ Route::group(
             return view('dashboard');
         })->middleware('AdminAuth');
 
+        // admins
+        Route::resource('admins', AdminController::class);
         // admin auth
         Route::get('admin/login', [LoginController::class, 'login'])->name('admin.login');    
         Route::post('admin/login', [LoginController::class, 'authenticate'])->name('admin.authenticate');    
@@ -34,5 +36,5 @@ Route::group(
         // categories
         Route::resource('categories', CategoryController::class);
 
-        Route::get('/{page}', [AdminController::class, 'index']);
+        Route::get('/{page}', [AdminController::class, 'page']);
     });

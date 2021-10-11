@@ -5,4 +5,5 @@ return [
     'Dashboard' => 'Home',
     'Setting' => 'Setting',
     'Categories' => 'Categories',
+    'Back' => 'Back',
 ];

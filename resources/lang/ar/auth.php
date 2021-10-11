@@ -16,5 +16,6 @@ return [
     'failed' => 'خطأ في كلمة المرور أو البريد الإلكتروني.',
     'password' => 'كلمة مرور غير صحيحة.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'Password mismatch'=> 'الرجاء إدخال كلمتي مرور متطابقتين !',
 
 ];
