@@ -3,7 +3,11 @@
     {{__('admins.Admins')}}
 @stop
 @section('css')
-
+<style>
+    td{
+        vertical-align: middle !important;
+    }
+</style>
 @endsection
 @section('page-header')
 <!-- breadcrumb -->
@@ -38,22 +42,28 @@
         })
     }
 </script>
+@php
+    Session::forget('success')
+@endphp
 @endif
 <!-- row opened -->
 <div class="row row-sm">
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header pb-0">
-                <div class="col-sm-1 col-md-2">
+                @can('admin_create')
+                    <div class="col-sm-1 col-md-2">
                         <a class="btn btn-primary btn-sm" href="{{ route('admins.create') }}">{{__('admins.Add New Admin')}}</a>
-                </div>
+                    </div>
+                @endcan              
             </div>
             <div class="card-body">
                 <div class="table-responsive hoverable-table">
-                    <table class="table table-hover" id="example1" data-page-length='50' style=" text-align: center;">
+                    <table class="table table-hover" data-page-length='50' style=" text-align: center;">
                         <thead>
                             <tr>
                                 <th class="wd-10p border-bottom-0">#</th>
+                                <th class="wd-15p border-bottom-0">{{__('admins.Account Image')}}</th>
                                 <th class="wd-15p border-bottom-0">{{__('admins.Name')}}</th>
                                 <th class="wd-20p border-bottom-0">{{__('admins.E-mail')}}</th>
                                 <th class="wd-15p border-bottom-0">{{__('admins.Status')}}</th>
@@ -65,15 +75,18 @@
                             @foreach ($admins as $admin)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        <img alt="" src="{{asset('uploads/'.$admin->avatar)}}" style="width: 70px; height: 70px; border-radius:50%">
+                                    </td>
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->email }}</td>
-                                    <td class=''>
+                                    <td>
                                         @if ($admin->status == 'active')
-                                            <span class="bagde bg-success text-light">
+                                            <span class="badge badge-success p-1">
                                                 {{ __('admins.Active') }}
                                             </span>
                                         @else
-                                            <span class="badge bg-danger text-light">
+                                            <span class="badge badge-danger p-1">
                                                 {{ __('admins.Suspended') }}
                                             </span>
                                         @endif
@@ -82,20 +95,26 @@
                                     <td>
                                         @if (!empty($admin->getRoleNames()))
                                             @foreach ($admin->getRoleNames() as $role)
-                                                <label class="badge badge-success p-1">{{ $role }}</label>
+                                                <span class="badge badge-success p-1">{{ $role }}</span>
                                             @endforeach
                                         @endif
                                     </td>
 
                                     <td>
-                                        {{-- // can delete and this is not super admin --}}
-                                        <a href="{{ route('admins.edit', $admin->id) }}" class="btn btn-sm btn-info"
-                                            title="{{__('modal.Edit')}}"><i class="las la-pen"></i></a> 
-                                    
-                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                        data-id="{{ $admin->id }}" data-name="{{ $admin->name }}"
-                                        data-toggle="modal" href="#deleteModal" title="{{__('modal.Delete')}}"><i
-                                            class="las la-trash"></i></a>
+                                        @can('admin_edit')
+                                            <a href="{{ route('admins.edit', $admin->id) }}" class="btn btn-sm btn-info"
+                                                title="{{__('modal.Edit')}}"><i class="las la-pen"></i></a> 
+                                        @endcan
+                                        
+                                        @can('admin_delete')
+                                                {{-- // can delete and this is not super admin --}}
+                                            @if (!$admin->hasRole('Super Admin'))
+                                            <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
+                                            data-id="{{ $admin->id }}" data-name="{{ $admin->name }}"
+                                            data-toggle="modal" href="#deleteModal" title="{{__('modal.Delete')}}"><i
+                                                class="las la-trash"></i></a>
+                                            @endif
+                                        @endcan                                        
                                     </td>
                                 </tr>
                             @endforeach
@@ -115,7 +134,7 @@
                     <h6 class="modal-title">{{__('admins.Delete Admin')}}</h6><button aria-label="Close" class="close"
                         data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                 </div>
-                <form action="" method="post">
+                <form action="" method="post" id="deleteform">
                     @method('delete')
                     @csrf
                     <div class="modal-body">
@@ -140,8 +159,6 @@
 <!-- main-content closed -->
 @endsection
 @section('js')
-<!-- Internal Modal js-->
-<script src="{{ URL::asset('assets/js/modal.js') }}"></script>
 
 <script>
     $('#deleteModal').on('show.bs.modal', function(event) {
@@ -150,7 +167,7 @@
         var name = button.data('name')
         var modal = $(this)
         modal.find('.modal-body #name').val(name);
-        modal.find('.modal-body form').attr('actions', `admins/${id}`)
+        $('#deleteform').attr('action', `admins/${id}`)
     })
 </script>
 

@@ -35,9 +35,11 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0 mb-3">
 								<div class="d-flex justify-content-between">
-									<div class="col-sm-6 col-md-4 col-xl-3">
+									@can('category_create')
+										<div class="col-sm-6 col-md-4 col-xl-3">
 											<a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#addModal">{{__('category.Add New Category')}}</a>
-									</div>
+										</div>
+									@endcan
 								</div>
 							</div>
 							<div class="card-body">
@@ -60,15 +62,19 @@
 													<img src="{{$category->image}}" alt="{{$category->name}}" width="40">
 												</td>
 												<td class="align-middle">
+													@can('category_edit')
 														<a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
 														data-id="{{ $category->id }}" data-name_ar="{{ $category->name_ar }}"
 														data-name_en="{{ $category->name_en }}"	data-img="{{$category->image}}" data-toggle="modal"
 														href="#editModal" title="{{__('modal.Edit')}}"><i class="las la-pen"></i></a>
-
+													@endcan
+														
+													@can('category_delete')
 														<a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
 														data-id="{{ $category->id }}" data-name="{{ $category->name }}"
 														data-toggle="modal" href="#deleteModal" title="{{__('modal.Delete')}}"><i
 														class="las la-trash"></i></a>
+													@endcan
 												</td>
 											</tr>
 											@endforeach

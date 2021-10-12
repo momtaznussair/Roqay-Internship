@@ -10,14 +10,21 @@ class Admin extends Authenticatable
 {
     use HasFactory, HasRoles;
 
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'avatar',   
+        'status',
+    ];
 
-    public function rules()
+    public static function rules()
     {
         return [
            'name' =>'required|string|max:255',
            'email' => 'required|email|max:255|unique:admins,email',
            'password' => 'required|confirmed',
-           'avatar' => 'nullable|image|mimes:png,jpg',
+           'avatar' =>  'nullable|image|mimes:png,jpg|max:512',
            'status'=> 'required|in:active,suspended',
            'roles' => 'required|exists:roles,id',
         ];

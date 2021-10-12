@@ -14,4 +14,11 @@ return [
     'Suspended' => 'Suspended',
     'Delete Admin' => 'Delete Admin',
     'Delete Success' => 'Admin Deleted Successfully',
+    'Password' => 'Password',
+    'Confirm Password' => 'Confirm Password',
+    "Passwords Don't Match" => "Password Don't Match",
+    'Status' => 'Status',
+    'Edit Admin Data' => 'Edit Admin Data',
+    'Edit Success' => 'Updates Saved',
+    'Account Image' => 'Image',
 ];

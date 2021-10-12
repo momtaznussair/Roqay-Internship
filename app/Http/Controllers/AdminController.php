@@ -6,6 +6,7 @@ use App\Models\Admin;
 use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\AdminRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +19,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admins = Admin::all();
+        $this->authorize('admin_access');
+
+        $admins = Admin::paginate();
         return view('admin.index', compact('admins'));
     }
 
@@ -29,6 +32,8 @@ class AdminController extends Controller
      */
     public function create()
     {
+        $this->authorize('admin_create');
+
         $roles = Role::select('id', 'name')->get();
         return view('admin.create', compact('roles'));
     }
@@ -41,33 +46,32 @@ class AdminController extends Controller
      */
     public function store(AdminRequest $request)
     {
+        $this->authorize('admin_create');
+
         // hashing pasword
         $password = $request->password;
         $request->password = Hash::make($password);
 
         //storing avatar image
+        $image = null;
         if($request->hasFile('avatar'))
         {
-            $path = $request->file('avatar')->store('admins');
-            $request->avatar = $path;
+            $image = Storage::putFile('admins', $request->file('avatar'));
+            $request->avatar = $image;
         }
 
-        $admin = Admin::create($request->all());
+        $admin = Admin::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'avatar' => $image,
+        ]);
+
         // assigning roles
         $admin->assignRole($request->roles);
 
-        return redirect()->route('admins')->withSuccess(__('admins.Add success'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Admin $admin)
-    {
-        return view('admin.show', compact('admin'));
+        return redirect()->route('admins.index')
+        ->withSuccess(__('admins.Add success'));
     }
 
     /**
@@ -78,6 +82,8 @@ class AdminController extends Controller
      */
     public function edit(Admin $admin)
     {
+        $this->authorize('admin_edit');
+
         $roles = Role::select('id', 'name')->get();
         return view('admin.edit', compact('admin', 'roles'));
     }
@@ -91,31 +97,35 @@ class AdminController extends Controller
      */
     public function update(AdminRequest $request, Admin $admin)
     {
-        // hashing pasword if exists
-        if ($request->password){
+        $this->authorize('admin_edit');
 
-            $password = $request->password;
-            $request->password = Hash::make($password);
-        }
-        else
-        {
-            $request = Arr::except($request, ['password']);
+        // hashing pasword if exists
+        $password = $admin->password;
+        if ($request->password){
+            $password = Hash::make($request->password);
         }
 
         //storing avatar image
         $avatar = $admin->avatar;
         if($request->hasFile('avatar'))
         {
-            Storage::delete($avatar);
-            $avatar = $request->file('avatar')->store('admins');
-        }
-        $request->avatar = $avatar;
+            Storage::delete($admin->avatar);
+            $avatar = Storage::putFile('admins', $request->file('avatar'));
 
-        $admin->update($request->all());
+        }
+      
+        $admin->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $password,
+            'avatar' => $avatar,
+            
+        ]);
         // assigning roles
         $admin->assignRole($request->roles);
 
-        return redirect()->route('admins')->withSuccess(__('admins.Edit success'));
+        return redirect()->route('admins.index')
+        ->withSuccess(__('admins.Edit Success'));
     }
 
     /**
@@ -126,6 +136,8 @@ class AdminController extends Controller
      */
     public function destroy(Admin $admin)
     {
+        $this->authorize('admin_delete');
+
         Storage::delete($admin->avatar);
         $admin->delete();
         return back()->withSuccess(__('admins.Delete Success'));

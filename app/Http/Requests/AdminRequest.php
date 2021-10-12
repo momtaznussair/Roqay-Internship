@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Admin;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AdminRequest extends FormRequest
@@ -23,14 +24,14 @@ class AdminRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = $this->rules();
-
-        if(!$this->getMethod() == 'POST')
+        $rules =  Admin::rules();
+        
+        if($this->getMethod() !== 'POST')
         {
-            $rules['emain'] = 'required|email|max:255|unique:admins,email'.$this->admin->id;
+            $rules['email'] = 'required|email|max:255|unique:admins,email,'.$this->admin->id;
+            $rules['password'] = 'nullable|confirmed';
         }
 
         return $rules;
-
     }
 }

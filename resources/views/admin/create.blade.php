@@ -28,7 +28,15 @@
 
 
     <div class="col-lg-12 col-md-12">
-
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
         <div class="card">
             <div class="card-body">
@@ -38,33 +46,76 @@
                     </div>
                 </div>
                 <br>
+                <form class="parsley-style-1" id="selectForm2" autocomplete="off" name="selectForm2"
+                action="{{route('admins.store')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div>
+                    {{-- 1 --}}
+                    <div class="row mg-b-20">
+                        <div class="parsley-input col-md-6" id="fnWrapper">
+                            <label>{{__('admins.Name')}} <span class="tx-danger">*</span></label>
+                            <input class="form-control form-control-sm mg-b-20"
+                                data-parsley-class-handler="#lnWrapper" name="name" required type="text">
+                        </div>
 
-              
-
-
-                {!! Form::open(['route' => 'admins.store' , 'class' => 'parsley-style-1', 'id' => 'selectForm2', 'autocomplete' => 'off']) !!}
-                    @csrf
-                    <div class="row">
-                        {{-- 1 --}}
-                        <div class="row mg-b-20">
-                            <div class="parsley-input col-md-6" id="fnWrapper">
-                                <label>اسم المستخدم: <span class="tx-danger">*</span></label>
-                                <input class="form-control form-control-sm mg-b-20"
-                                    data-parsley-class-handler="#lnWrapper" name="name" required="" type="text">
-                            </div>
-
-                            <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
-                                <label>البريد الالكتروني: <span class="tx-danger">*</span></label>
-                                <input class="form-control form-control-sm mg-b-20"
-                                    data-parsley-class-handler="#lnWrapper" name="email" required="" type="email">
-                            </div>
+                        <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
+                            <label>{{__('admins.E-mail')}}: <span class="tx-danger">*</span></label>
+                            <input class="form-control form-control-sm mg-b-20"
+                                data-parsley-class-handler="#lnWrapper" name="email" required type="email">
                         </div>
                     </div>
 
-                {!! Form::close() !!}
-            </div>
+                </div>
+
+                {{-- 2 --}}
+                <div class="row mg-b-20">
+                    <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
+                        <label>{{__('admins.Password')}} <span class="tx-danger">*</span></label>
+                        <input class="form-control form-control-sm mg-b-20" data-parsley-class-handler="#lnWrapper"
+                            name="password" id='password' type="password" required>
+                    </div>
+
+                    <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
+                        <label>{{__('admins.Confirm Password')}} <span class="tx-danger">*</span></label>
+                        <input class="form-control form-control-sm mg-b-20" data-parsley-class-handler="#lnWrapper"
+                            name="password_confirmation" id="confirm" type="password" required>
+                    </div>
+                </div>
+
+                {{-- 3 --}}
+                <div class="row row-sm mg-b-20">
+                    <div class="col">
+                        <label class="form-label font-weight-bold mt-1">{{__('admins.Status')}}<span class="tx-danger mr-1">*</span></label>
+                        <select class="form-control" name="status" id="select-beast" class="form-control  nice-select  custom-select" required>
+                                <option class="text-success" value="active">{{__('admins.Active')}}</option>
+                                <option class="text-danger" value="suspended">{{__('admins.Suspended')}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <p class="mg-b-10 font-weight-bold">{{__('admins.Roles')}}<span class="tx-danger mr-1">*</span></p>
+                        <select class="form-control select2" name="roles[]" multiple="multiple" required>
+                            @foreach ($roles as $role)
+                                @if ($role->name != 'Super Admin')
+                                    <option value="{{$role->id}}">{{$role->name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <label>{{__('admins.Account Image')}} <span class="tx-warning">*</span></label>
+                        <input class="form-control  mg-b-20" name="avatar" type="file">
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                    <button class="btn btn-main-primary pd-x-20" type="submit">{{__('modal.Confirm')}}</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 <!-- row closed -->
 </div>
@@ -84,15 +135,15 @@
 <!-- Internal Form-validation js -->
 <script src="{{URL::asset('assets/js/form-validation.js')}}"></script>
 <script>
-    $('form').on('submit', function () {
-        if($('#password').val() !== $('#confirm').val())
-        {
-            notif({
-                    msg: {{__('auth.Password mismatch')}},
-                    type: "error"
-                });
-            return false;
-        }
-    });
+$('form').on('submit', function () {
+    if($('#password').val() !== $('#confirm').val())
+    {
+        notif({
+                msg: `{{__("admins.Passwords Don't Match")}}`,
+                type: "error"
+            });
+        return false;
+    }
+});
 </script>
 @endsection

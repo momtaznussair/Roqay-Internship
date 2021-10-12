@@ -46,9 +46,11 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0 mb-3">
 								<div class="d-flex justify-content-between">
-									<div class="col-sm-6 col-md-4 col-xl-3">
+									@can('role_create')
+										<div class="col-sm-6 col-md-4 col-xl-3">
 											<a class="modal-effect btn btn-outline-primary btn-block"  href="{{route('roles.create')}}">{{__('roles.Add New Role')}}</a>
-									</div>
+										</div>
+									@endcan									
 								</div>
 							</div>
 							<div class="card-body">
@@ -72,14 +74,17 @@
                                                     @else
                                                     <a class="btn btn-success btn-sm"
                                                         href="{{ route('roles.show', $role->id) }}">{{__('roles.View')}}</a>
+													@can('role_edit')
+														<a class="btn btn-primary btn-sm"
+														href="{{ route('roles.edit', $role->id) }}">{{__('roles.Edit')}}</a> 
+													@endcan
 
-                                                    <a class="btn btn-primary btn-sm"
-                                                    href="{{ route('roles.edit', $role->id) }}">{{__('roles.Edit')}}</a> 
-
-                                                    <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                                    data-id="{{ $role->id }}"
-                                                    data-name="{{ $role->name }}" data-toggle="modal"
-                                                    href="#deleteModal" title="{{__('roles.Delete')}}"><i class="las la-trash"></i></a>
+													@can('role_delete')
+														<a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
+														data-id="{{ $role->id }}"
+														data-name="{{ $role->name }}" data-toggle="modal"
+														href="#deleteModal" title="{{__('roles.Delete')}}"><i class="las la-trash"></i></a>	
+													@endcan
                                                     @endif 
                                                 </td>
 											</tr>

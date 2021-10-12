@@ -17,6 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $this->authorize('category_access');
+
         $categories = Category::paginate();
         return view('categories.index', ['categories' => $categories]);
     }
@@ -29,6 +31,8 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
+        $this->authorize('category_create');
+
         $path = $request->file('img')->store('categories');
         $category = Category::create([
             'name_ar' =>$request->name_ar,
@@ -54,6 +58,8 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
+        $this->authorize('category_edit');
+
         // update img if exists
         $image = $category->img;
         if ($request->hasFile('img'))
@@ -85,6 +91,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $this->authorize('category_delete');
+
         Storage::delete($category->img);
         $category->delete();
 

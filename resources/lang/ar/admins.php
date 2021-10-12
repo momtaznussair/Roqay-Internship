@@ -15,4 +15,11 @@ return [
     'Suspended' => 'متوقف',
     'Delete Admin' => 'حذف مدير',
     'Delete Success' => 'تم الحذف بنجاح',
+    'Password' => 'كلمة المرور',
+    'Confirm Password' => 'تأكيد كلمة المرور',
+    "Passwords Don't Match" => "كلمات المرور غير متطابقة",
+    'Status' => 'الحالة',
+    'Edit Admin Data' => 'تعديل بيانات مدير',
+    'Edit Success' => 'تم حفظ التعديلات',
+    'Account Image' => 'الصورة',
 ];
