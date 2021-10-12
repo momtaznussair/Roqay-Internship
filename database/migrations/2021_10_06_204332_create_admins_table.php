@@ -18,6 +18,7 @@ class CreateAdminsTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('avatar')->nullable();
             $table->enum('status', ['active', 'suspended']); // active or suspended
             $table->rememberToken();
             $table->timestamps();

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -16,6 +17,9 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// todo: group routes under auth middelware
+
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
@@ -35,6 +39,9 @@ Route::group(
 
         // categories
         Route::resource('categories', CategoryController::class);
+
+        // roles
+        Route::resource('roles', RoleController::class);
 
         Route::get('/{page}', [AdminController::class, 'page']);
     });

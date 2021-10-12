@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Spatie\Permission\Models\Role;
+use App\Http\Requests\AdminRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -25,7 +29,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('admin.create');
+        $roles = Role::select('id', 'name')->get();
+        return view('admin.create', compact('roles'));
     }
 
     /**
@@ -34,9 +39,24 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminRequest $request)
     {
-        //
+        // hashing pasword
+        $password = $request->password;
+        $request->password = Hash::make($password);
+
+        //storing avatar image
+        if($request->hasFile('avatar'))
+        {
+            $path = $request->file('avatar')->store('admins');
+            $request->avatar = $path;
+        }
+
+        $admin = Admin::create($request->all());
+        // assigning roles
+        $admin->assignRole($request->roles);
+
+        return redirect()->route('admins')->withSuccess(__('admins.Add success'));
     }
 
     /**
@@ -45,9 +65,9 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Admin $admin)
     {
-        //
+        return view('admin.show', compact('admin'));
     }
 
     /**
@@ -58,7 +78,8 @@ class AdminController extends Controller
      */
     public function edit(Admin $admin)
     {
-        return view('admin.edit', compact('admin'));
+        $roles = Role::select('id', 'name')->get();
+        return view('admin.edit', compact('admin', 'roles'));
     }
 
     /**
@@ -68,9 +89,33 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminRequest $request, Admin $admin)
     {
-        //
+        // hashing pasword if exists
+        if ($request->password){
+
+            $password = $request->password;
+            $request->password = Hash::make($password);
+        }
+        else
+        {
+            $request = Arr::except($request, ['password']);
+        }
+
+        //storing avatar image
+        $avatar = $admin->avatar;
+        if($request->hasFile('avatar'))
+        {
+            Storage::delete($avatar);
+            $avatar = $request->file('avatar')->store('admins');
+        }
+        $request->avatar = $avatar;
+
+        $admin->update($request->all());
+        // assigning roles
+        $admin->assignRole($request->roles);
+
+        return redirect()->route('admins')->withSuccess(__('admins.Edit success'));
     }
 
     /**
@@ -81,6 +126,7 @@ class AdminController extends Controller
      */
     public function destroy(Admin $admin)
     {
+        Storage::delete($admin->avatar);
         $admin->delete();
         return back()->withSuccess(__('admins.Delete Success'));
     }

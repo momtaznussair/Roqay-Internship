@@ -1,0 +1,26 @@
+<?php
+return [
+    'Roles' => 'الصلاحيات',
+    'Permissions' => 'الصلاحيات',
+    'Add New Role' => 'إضافة صلاحية جديدة',
+    'Role Added Successfully' => 'تم إضافة الصلاحية بنجاح',
+    'Roles List' => 'قائمة الصلاحيات',
+    'Name' => 'الاسم',
+    'Operations' => 'العمليات',
+    'View' => 'عرض',
+    'Edit' => 'تعديل',
+    "Delete" => 'حذف',
+    "Delete Role" => 'حذف الصلاحية',
+    "Delete Success" => 'تم حذف الصلاحية بنجاح',
+    "Select All" => 'تحديد الكل',
+    "Deselect All" => 'إالغاء تحديد الكل',
+    'Plese Enter Role Name' => 'الرجاء إدخال اسم الصلاحية',
+    'Name Already Taken' => 'الاسم مستخدم من قبل',
+    'Name Must be under 256 characters' => 'الاسم يجب ألا يتعدى 255 حرف',
+    'Select At least one Permission' => 'يرجى اختيار صلاحية واحدة على الأقل',
+    'Sorry Error In permissions' => 'خطأ في الصلاحيات',
+    'Edit Role' => 'تعديل صلاحية',
+    'Edit Success' => 'تم تعديل الصلاحية بنجاح',
+    'View Role' => 'عرض الصلاحية',
+    
+];
