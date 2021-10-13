@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Admin\Auth\LoginController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\RoleController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Auth\LoginController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -44,4 +44,8 @@ Route::group(
         Route::resource('roles', RoleController::class);
 
         Route::get('/{page}', [AdminController::class, 'page']);
+
+        
     });
+
+   

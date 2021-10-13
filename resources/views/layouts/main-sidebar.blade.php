@@ -31,7 +31,7 @@
 					</li>
 					@endcan
 
-					@can('admins_access')
+					@can('admin_access')
 					<li class="side-item side-item-category">{{__('admins.Admins')}}</li>
 					<li class="slide">
 						<a class="side-menu__item" href="{{ route('admins.index') }}">
@@ -42,7 +42,7 @@
 					</li>
 					@endcan
 
-					@can('roles_access')
+					@can('role_access')
 						<li class="side-item side-item-category">{{__('roles.Roles')}}</li>
 						<li class="slide">
 							<a class="side-menu__item" href="{{ route('roles.index') }}">

@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use HaydenPierce\ClassFinder\ClassFinder;
 
 class PermissionsSeeder extends Seeder
 {
@@ -14,25 +16,35 @@ class PermissionsSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = [
-            'category_access',
-            'category_create',
-            'category_edit',
-            'category_show',
-            'category_delete',
+        //get all classes in App\Models namespace
+        $classes = ClassFinder::getClassesInNamespace('App\Models');
+            $models = [];
+            foreach ($classes as $class) {
+               $models[] = Str::afterLast($class, '\\');
+            }
+
+            //create permissions for each model
+            foreach ($models as $model) {
+
+                Permission::insert([
+                    ['name' => $model .'_access', 'guard_name' => 'admin'],
+                    ['name' => $model .'_create', 'guard_name' => 'admin'],
+                    ['name' => $model .'_edit', 'guard_name' => 'admin'],
+                    ['name' => $model .'_delete', 'guard_name' => 'admin'],
+                    ['name' => $model .'_show', 'guard_name' => 'admin'],
+                ]);
+            }
+        
+        // create permissions for Role Model
+        $rolePermissions = [
             'role_access',
             'role_create',
             'role_edit',
             'role_show',
             'role_delete',
-            'admin_access',
-            'admin_create',
-            'admin_edit',
-            'admin_show',
-            'admin_delete',            
         ];
 
-        foreach ($permissions as $permission) {
+        foreach ($rolePermissions as $permission) {
             Permission::create([
                 'name' => $permission,
                 'guard_name' => 'admin'
