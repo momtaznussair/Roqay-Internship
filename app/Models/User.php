@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -41,4 +42,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //validation rules
+    public static function rules()
+    {
+        return [
+           'name' =>'required|string|max:255',
+           'email' => 'required|email|max:255|unique:users,email',
+           'password' => 'required|confirmed|min:8',
+           'avatar' =>  'required|image|mimes:png,jpg|max:512',
+           'phones' => 'required|array',
+           'phones.*' => 'required|digits:11|numeric|distinct|unique:phones,number',
+        ];
+    }
+
+    public function phones()
+    {
+        return $this->hasMany(Phone::class);
+    }
 }

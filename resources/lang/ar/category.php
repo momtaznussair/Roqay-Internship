@@ -2,7 +2,6 @@
 return [
     'Add New Category' => 'إضافة قسم',
     'Category Name' => 'اسم القسم',
-    'Category Image' => 'صورة القسم',
     'Name(English)' => 'الاسم (بالانجليزية)',
     'Name(Arabic)' => 'الاسم (بالعربية)',
     'Operations' => 'العمليات',

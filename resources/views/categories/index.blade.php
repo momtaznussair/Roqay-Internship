@@ -134,7 +134,6 @@
 							</div>
 							<div class="modal-body">
 								<form id="editForm" autocomplete="off" enctype="multipart/form-data">
-									@csrf
 									@method('PUT')
 									<input type="hidden" name="id" id="id">
 									<div class="form-group">

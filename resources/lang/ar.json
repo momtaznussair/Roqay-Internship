@@ -1,0 +1,20 @@
+{
+    "User Deleted Successfully": "تم حذف المستخدم بنجاح",
+    "User Added Successfully": "تم إضافة مستخدم جديد",
+    "User Edited Successfully": "تم التحديث بنجاح",
+    "Changes Saved" : "تم حفظ التعديلات",
+    "Users" : "المستخدمين",
+    "Users List" : "قائمة المستخدمين",
+    "Add New User" : "إضافة مستخدم جديد",
+    "Delete User" : "حذف مستخدم",
+    "Edit User Account" : "تعديل بيانات مستخدم",
+    "Name" : "الاسم",
+    "E-mail" : "البريد الإلكتروني",
+    "Image" : "الصورة",
+    "Phone Numbers" : "رقم الهاتف",
+    "confirm" : "تأكيد",
+    "cancel" : "إلغاء",
+    "Unknown Error" : "خطأ غير معروف",
+    "Operations" : "العمليات"
+
+}

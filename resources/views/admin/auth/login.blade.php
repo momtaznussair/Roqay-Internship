@@ -3,8 +3,6 @@
 @section('title')
    {{__('login.Login')}}
 @stop
-
-
 @section('css')
 @endsection
 @section('content')
@@ -19,11 +17,11 @@
                         <a  rel="alternate" hreflang="ar" href="{{ LaravelLocalization::getLocalizedURL('ar', null, [], true) }}">
                             <img src="{{ URL::asset('assets/img/flags/egypt-flag.png') }}" style="padding-top:1rem" alt="العربية" title="العربية">
                         </a>
-                        @else
+                    @else
                         <a  rel="alternate" hreflang="en" href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}">
                             <img  src="{{ URL::asset('assets/img/flags/us_flag.jpg') }}" style="width: 32px; padding-top:1rem" alt="English" title="English">
                         </a>
-                        @endif
+                    @endif
                 </div>
                 <div class="login d-flex align-items-center py-2">
                     <!-- Demo content-->
@@ -98,13 +96,6 @@
             <!-- The image half -->
 
             <div class="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent px-0">
-				{{-- <div class="position-fixed text-light" style="bottom: 1.5rem; left:1.25rem">
-					<h1 class='text-left'>Invoices</h1>
-                    <p class="text-muted mb-0">Copyright © 2021 Momtaz Nussair</p>
-				</div> --}}
-                {{-- <h2 class="position-fixed text-light" style="bottom: 1.5rem; left:1.25rem">Invoices
-                    <p class="text-muted mb-0">Copyright © 2021 Momtaz Nussair</p>
-                </h2> --}}
                 <img src="{{ URL::asset('assets/img/media/dominik.jpg') }}" class="img-fluid" alt="logo">
             </div>
 
@@ -113,7 +104,4 @@
     </div>
 @endsection
 @section('js')
-    <!--Internal  Notify js -->
-    <script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
 @endsection

@@ -37,11 +37,11 @@ class PermissionsSeeder extends Seeder
         
         // create permissions for Role Model
         $rolePermissions = [
-            'role_access',
-            'role_create',
-            'role_edit',
-            'role_show',
-            'role_delete',
+            'Role_access',
+            'Role_create',
+            'Role_edit',
+            'Role_show',
+            'Role_delete',
         ];
 
         foreach ($rolePermissions as $permission) {

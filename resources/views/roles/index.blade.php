@@ -70,7 +70,7 @@
 												<td class="align-middle">{{$role->name}}</td>
                                                 <td>
                                                     @if ($role->name == 'Super Admin')
-                                                    {{'---'}}
+                                                    <i class="fas fa-crown tx-warning"></i>
                                                     @else
                                                     <a class="btn btn-success btn-sm"
                                                         href="{{ route('roles.show', $role->id) }}">{{__('roles.View')}}</a>

@@ -2,7 +2,6 @@
 return [
     'Add New Category' => 'Add New Category',
     'Category Name' => 'Category Name',
-    'Category Name' => 'Category Image',
     'Name(English)' => 'Name (English)',
     'Name(Arabic)' => 'Name (Arabic)',
     'Operations' => 'Operations',
