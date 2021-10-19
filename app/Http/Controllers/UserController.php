@@ -31,7 +31,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        //1 hashing pasword
+        //1 hashing pasword[bdnbnb]
         $password = $request->password;
         $request->password = Hash::make($password);
         //2 store image

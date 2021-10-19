@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostImageController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -38,6 +40,10 @@ Route::group(
 
             // categories
             Route::resource('categories', CategoryController::class);
+            //posts
+            Route::resource('posts', PostController::class);
+            // post images
+            Route::resource('post-images', PostImageController::class);
             // roles
             Route::resource('roles', RoleController::class);
             // users
@@ -57,4 +63,4 @@ Route::group(
         
     });
 
-   
+

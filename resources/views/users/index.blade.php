@@ -75,7 +75,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        <img alt="" src="{{asset('uploads/'.$user->avatar)}}" style="width: 70px; height: 70px; border-radius:50%">
+                                        <img alt="" src="{{asset('storage/'.$user->avatar)}}" style="width: 70px; height: 70px; border-radius:50%">
                                     </td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
@@ -90,7 +90,7 @@
                                         @can('User_edit')
                                             <a  class="modal-effect btn btn-sm btn-info"
                                                 data-effect="effect-scale" data-toggle="modal" href="#editModal"
-                                                data-user = "{{$user}}" data-img = "{{asset('uploads/'.$user->avatar)}}"
+                                                data-user = "{{$user}}" data-img = "{{asset('storage/'.$user->avatar)}}"
                                                 title="{{__('modal.Edit')}}"><i class="las la-pen"></i></a> 
                                         @endcan
                                         
@@ -185,6 +185,7 @@
                                     <button class=" border-0 bg-white addPhoneField"><i class="fas fa-plus-circle tx-success mx-1"></i></button>
                                     {{__('Phone Numbers')}} <span class="tx-danger">*</span>
                                 </label>
+                                <input class="form-control  mg-b-20" name="phones[]"  type="phone" required>
                                 <input class="form-control  mg-b-20" name="phones[]"  type="phone" required>
                             </div>
                         </div>

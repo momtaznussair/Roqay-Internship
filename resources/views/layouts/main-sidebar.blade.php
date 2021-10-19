@@ -9,7 +9,7 @@
 					<div class="dropdown user-pro-body">
 						<div class="">
 							@if (Auth('admin')->user()->avatar)
-								<img alt="user-img" class="avatar avatar-xl brround" src="{{asset('uploads/'.Auth('admin')->user()->avatar)}}"><span class="avatar-status profile-status bg-green"></span>
+								<img alt="user-img" class="avatar avatar-xl brround" src="{{asset('storage/' . Auth('admin')->user()->avatar)}}"><span class="avatar-status profile-status bg-green"></span>
 							@else
 								<img alt="user-img" class="avatar avatar-xl brround" src="{{URL::asset('assets/img/faces/6.jpg')}}"><span class="avatar-status profile-status bg-green"></span>
 							@endif
@@ -30,6 +30,17 @@
 						<a class="side-menu__item" href="{{ route('categories.index') }}">
 							<i class="fas fa-layer-group mx-1" style="color: gray; font-size:1.3rem;"></i>
 							<span class="side-menu__label" style="color: gray;">{{__('main-sidebar.Categories')}}</span>
+							<i class="angle fe fe-chevron-down"></i>
+						</a>
+					</li>
+					@endcan
+
+					@can('Post_access')
+					<li class="side-item side-item-category">{{__('Posts')}}</li>
+					<li class="slide">
+						<a class="side-menu__item" href="{{ route('posts.index') }}">
+							<i class="far fa-newspaper mx-1" style="color: gray; font-size:1.3rem;"></i>
+							<span class="side-menu__label" style="color: gray;">{{__('Posts')}}</span>
 							<i class="angle fe fe-chevron-down"></i>
 						</a>
 					</li>

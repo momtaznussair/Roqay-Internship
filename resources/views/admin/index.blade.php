@@ -76,7 +76,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        <img alt="" src="{{asset('uploads/'.$admin->avatar)}}" style="width: 70px; height: 70px; border-radius:50%">
+                                        <img alt="" src="{{asset('storage/' . $admin->avatar)}}" style="width: 70px; height: 70px; border-radius:50%">
                                     </td>
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->email }}</td>

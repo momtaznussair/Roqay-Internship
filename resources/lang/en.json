@@ -15,5 +15,20 @@
     "confirm" : "Confirm",
     "cancel" : "Cancel",
     "Unknown Error" : "Unknown Error",
-    "Operations" : "Operations"
+    "Operations" : "Operations",
+    "Posts" : "Posts",
+    "Add New Post" : "Add New Post",
+    "Edit Post" : "Edit Post",
+    "Delete Post" : "Delete Post",
+    "Title" : "Title",
+    "Content" : "Content",
+    "Thumbnail" : "Thumbnail",
+    "Category" : "Category",
+    "Posts List" : "Posts List",
+    "Images" : "Images",
+    "Post Created Successfully" : "Post Created Successfully",
+    "Post Deleted Successfully" : "Post Deleted Successfully",
+    "Read Post" : "Read Post",
+    "Image Deleted Successfully" : "Image Deleted Successfully",
+    "Add Images" : "Add Images"
 }

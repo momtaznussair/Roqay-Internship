@@ -23,6 +23,11 @@ class Category extends Model
 
     public function getImageAttribute()
     {
-        return asset("uploads/".$this->img);
+        return asset("storage/".$this->img);
+    }
+
+    public function posts()
+    {
+       return $this->hasMany(Post::class);
     }
 }

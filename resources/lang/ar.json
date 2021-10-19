@@ -15,6 +15,20 @@
     "confirm" : "تأكيد",
     "cancel" : "إلغاء",
     "Unknown Error" : "خطأ غير معروف",
-    "Operations" : "العمليات"
-
+    "Operations" : "العمليات",
+    "Posts" : "المنشورات",
+    "Add New Post" : "اضافة منشور جديد",
+    "Edit Post" : "تعديل منشور",
+    "Delete Post" : "حذف منشور ",
+    "Title" : "العنوان",
+    "Content" : "المحتوى",
+    "Thumbnail" : "الصورة",
+    "Category" : "القسم",
+    "Posts List" : "قائمة المنشورات",
+    "Images" : "الصور",
+    "Post Created Successfully" : "تم اضافة المنشور بنجاح",
+    "Post Deleted Successfully" : "تم حذف المنشور بنجاح",
+    "Read Post" : "قراءة المنشور",
+    "Image Deleted Successfully" : " تم حذف الصورة بنجاح",
+    "Add Images" : "اضافة صور"
 }

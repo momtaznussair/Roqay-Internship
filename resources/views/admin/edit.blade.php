@@ -53,7 +53,7 @@
                     {{-- 1 --}}
                     <div class="row mg-b-20">
                         <div class="col-md-2 d-flex justify-content-center">
-                           <img alt="" src="{{asset('uploads/'.$admin->avatar)}}" style="width: 70px; height: 70px; border-radius:50%">
+                           <img alt="" src="{{asset('storage/' . $admin->avatar)}}" style="width: 70px; height: 70px; border-radius:50%">
                         </div>
                         <div class="parsley-input col-md-5" id="fnWrapper">
                             <label>{{__('admins.Name')}} <span class="tx-danger">*</span></label>

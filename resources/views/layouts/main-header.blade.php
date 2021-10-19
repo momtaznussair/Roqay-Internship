@@ -29,14 +29,20 @@
 							</div>
 							<div class="dropdown main-profile-menu nav nav-item nav-link">
 								@if (Auth('admin')->user()->avatar)
-									<a class="profile-user d-flex" href=""><img alt="" src="{{asset('uploads/'.Auth('admin')->user()->avatar)}}"></a>
+									<a class="profile-user d-flex" href=""><img alt="" src="{{asset('storage/' . Auth('admin')->user()->avatar)}}""></a>
 								@else
 									<a class="profile-user d-flex" href=""><img alt="" src="{{URL::asset('assets/img/faces/6.jpg')}}"></a>
 								@endif
 								<div class="dropdown-menu">
 									<div class="main-header-profile bg-primary p-3">
 										<div class="d-flex wd-100p">
-											<div class="main-img-user"><img alt="" src="{{URL::asset('assets/img/faces/6.jpg')}}"></div>
+											<div class="main-img-user">
+											@if (Auth('admin')->user()->avatar)
+												<a class="profile-user d-flex" href=""><img alt="" src="{{asset('storage/' . Auth('admin')->user()->avatar)}}""></a>
+											@else
+												<a class="profile-user d-flex" href=""><img alt="" src="{{URL::asset('assets/img/faces/6.jpg')}}"></a>
+											@endif
+											</div>
 											<div class="mr-3 my-auto">
 												<h6 class="ml-2">{{Auth('admin')->user()->name}}</h6>
 											</div>

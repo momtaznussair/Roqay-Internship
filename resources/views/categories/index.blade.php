@@ -59,7 +59,7 @@
 												<td class="align-middle">{{$loop->iteration}}</td>
 												<td class="align-middle">{{$category->name}}</td>
 												<td class="align-middle">
-													<img src="{{$category->image}}" alt="{{$category->name}}" width="40">
+													<img src="{{$category->image}}" alt="{{$category->name}}" width="100">
 												</td>
 												<td class="align-middle">
 													@can('category_edit')

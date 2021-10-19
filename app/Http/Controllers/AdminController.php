@@ -55,7 +55,8 @@ class AdminController extends Controller
         $image = null;
         if($request->hasFile('avatar'))
         {
-            $image = Storage::putFile('admins', $request->file('avatar'));
+            // $image = Storage::putFile('admins', $request->file('avatar'));
+            $image = $request->file('avatar')->store('admins');
             $request->avatar = $image;
         }
 
@@ -109,8 +110,7 @@ class AdminController extends Controller
         if($request->hasFile('avatar'))
         {
             Storage::delete($admin->avatar);
-            $avatar = Storage::putFile('admins', $request->file('avatar'));
-
+            $avatar = $request->file('avatar')->store('admins');
         }
       
         $admin->update([
