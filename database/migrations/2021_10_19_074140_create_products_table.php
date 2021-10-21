@@ -18,12 +18,12 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name_ar');
             $table->string('name_en');
-            $table->string('description_ar');
-            $table->string('description_en');
+            $table->string('description_ar', 512);
+            $table->string('description_en', 512);
             $table->string('cover');
             $table->unsignedDecimal('price');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('admin_id')->constrained()->onDelete('set null');
+            $table->foreignId('admin_id')->constrained();
             $table->timestamps();
         });
     }

@@ -26,6 +26,21 @@
 <!-- Eva-icons js -->
 <script src="{{URL::asset('assets/js/eva-icons.min.js')}}"></script>
 @yield('js')
+@livewireScripts()
+{{-- livewire events --}}
+<script type="text/javascript">
+    window.livewire.on('hideModal', () => {
+        $('.modal').modal('hide');
+    });
+
+    Livewire.on('success', (message, deleteButtonId) => {
+        $(`#${deleteButtonId}`).remove();
+        notif({
+            msg: message,
+            type: "success"
+        })
+    })
+</script>
 <!-- Sticky js -->
 <script src="{{URL::asset('assets/js/sticky.js')}}"></script>
 <!-- custom js -->

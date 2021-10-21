@@ -6,9 +6,10 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\PostImageController;
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\ProductImageController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Livewire\Producs;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,10 +41,12 @@ Route::group(
 
             // categories
             Route::resource('categories', CategoryController::class);
+            //products
+            
             //posts
             Route::resource('posts', PostController::class);
             // post images
-            Route::resource('post-images', PostImageController::class);
+            Route::resource('post-images', ProductImageController::class);
             // roles
             Route::resource('roles', RoleController::class);
             // users
@@ -56,6 +59,10 @@ Route::group(
             Route::get('admin/login', [LoginController::class, 'login'])->name('admin.login');    
             Route::post('admin/login', [LoginController::class, 'authenticate'])->name('admin.authenticate'); 
 
+        });
+
+        Route::get('test', function () {
+            return view('products.index');
         });
 
         Route::get('/{page}', [AdminController::class, 'page']);

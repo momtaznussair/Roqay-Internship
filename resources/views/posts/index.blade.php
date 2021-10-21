@@ -361,7 +361,7 @@ function postRequest(method, url, formData, formId, modalId) {
 $('#editModal').click(function (e) {
     if($(e.target).hasClass('removeImage')){
         let id = e.target.id;
-        if(confirm('Are you sure you want to delete this image ?'))
+        if(confirm('{{__("Are you sure you want to delete this image ?")}}'))
         {
             $.ajax({
             type: 'DELETE',
