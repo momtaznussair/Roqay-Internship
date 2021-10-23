@@ -7,7 +7,7 @@
             </div>
             <div class="row modal-body">
                <div class="col-9">
-                    <form wire:submit.prevent="update" id="editForm">
+                    <form wire:submit.prevent="update" id="editForm" method="post">
                      {{-- 1 --}}
                      <div class="row form-group mb-3">
                         <div class="col">

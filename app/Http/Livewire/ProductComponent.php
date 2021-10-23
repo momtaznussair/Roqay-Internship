@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use App\Models\ProductImage;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use App\Repositories\ProductRepositoryInterface;
 
 class ProductComponent extends Component
 {
@@ -38,9 +39,9 @@ class ProductComponent extends Component
         $this->validateOnly($property);
     }
 
-    public function render()
+    public function render(ProductRepositoryInterface $repository)
     {
-        $this->products = Product::with('category', 'created_by')->get();
+        $this->products = $repository->getAll();
         return view('livewire.product-component');
     }
 
@@ -54,7 +55,7 @@ class ProductComponent extends Component
         $this->categories = Category::all();
     }
 
-    public function store()
+    public function store(ProductRepositoryInterface $repository)
     {
         $validatedDate = $this->validate($this->rules);
         // storing cover
@@ -62,17 +63,9 @@ class ProductComponent extends Component
 
         $validatedDate['admin_id'] = Auth('admin')->user()->id;
         $validatedDate['cover'] = $cover;
-        //create product
-        $product =  Product::create($validatedDate);
 
-        //add images
-        foreach ($this->images as $image) {
-            $path = Storage::putFile('products', $image);
-            ProductImage::create([
-                'image' => $path,
-                'product_id' => $product->id
-            ]);
-        }
+        //using product repository for storing a product
+        $repository->store($validatedDate, $this->images);
 
         $this->resetInputFields();
 
@@ -101,32 +94,15 @@ class ProductComponent extends Component
         $this->resetInputFields();
     }
 
-    public function update()
+    public function update(ProductRepositoryInterface $repository)
     {
-         //update validation rules
+        //update validation rules
         $this->rules['newCover'] = 'nullable|image|mimes:png,jpg,jpeg';
         $this->rules['images'] = 'nullable|array';
 
         $validatedDate = $this->validate(Arr::except($this->rules, ['cover']));
-        //change cover
-        if($this->newCover)
-        {
-            Storage::delete($this->product->cover);
-            $cover = Storage::putFile('products', $this->newCover);
-            $validatedDate['cover'] = $cover;
-        }
-
-        //update product
-        $this->product->update($validatedDate);
-        //add images
-        if($this->images)
-        foreach ($this->images as $image) {
-            $path = Storage::putFile('products', $image);
-            ProductImage::create([
-                'image' => $path,
-                'product_id' => $this->product->id
-            ]);
-        }
+        
+        $repository->update($this->product, $validatedDate, $this->newCover, $this->images);
 
         $this->emit('hideModal'); // Close model to using jquery
         $this->emit('success', __('Product Updated Successfully'));
@@ -143,27 +119,19 @@ class ProductComponent extends Component
         $this->product = $product;
     }
 
-    public function delete()
+    public function delete(ProductRepositoryInterface $repository)
     {
-        //delete images
-        $images = $this->product->images;
-        foreach ($images as $image) {
-            Storage::delete($image->image);
-        }
-        //delete cover 
-        Storage::delete($this->product->cover);
-        // delete product
-        $this->product->delete();
+        $repository->delete($this->product);
+        
         $this->emit('hideModal'); // Close model to using jquery
         $this->emit('success', __('Product Deleted Successfully'));
         $this->resetInputFields();
     }
 
-    public function deleteImage(ProductImage $image)
+    public function deleteImage(ProductRepositoryInterface $repository, ProductImage $image)
     {
-        Storage::delete($image->image);
         $imageButtonId = $image->id;
-        $image->delete();
+        $repository->deleteImage($image);
         $this->emit('success', __("Image Deleted Successfully"), $imageButtonId);
     }
 }

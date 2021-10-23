@@ -186,7 +186,6 @@
                                     {{__('Phone Numbers')}} <span class="tx-danger">*</span>
                                 </label>
                                 <input class="form-control  mg-b-20" name="phones[]"  type="phone" required>
-                                <input class="form-control  mg-b-20" name="phones[]"  type="phone" required>
                             </div>
                         </div>
                     </div>
