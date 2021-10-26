@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Phone;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
-use App\Models\Phone;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,7 +32,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        //1 hashing pasword[bdnbnb]
+        //1 hashing pasword
         $password = $request->password;
         $request->password = Hash::make($password);
         //2 store image
@@ -116,5 +117,13 @@ class UserController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
     }
 }

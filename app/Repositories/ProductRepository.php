@@ -11,6 +11,7 @@ class ProductRepository implements ProductRepositoryInterface
 {
 
 	public function getAll(){
+        
 		return Product::with('category', 'created_by')->get();
 	}
 

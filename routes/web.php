@@ -8,9 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\ProductImageController;
-use App\Http\Controllers\TestController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use App\Http\Livewire\Producs;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +21,7 @@ use App\Http\Livewire\Producs;
 |
 */
 
-// todo: group routes under auth middelware
+
 
 Route::group(
     [
@@ -34,7 +32,7 @@ Route::group(
         // admin auth middleware
         Route::middleware('AdminAuth')->group(function () {
             //home page
-            Route::view('/', 'dashboard');
+            Route::view('/admin', 'dashboard');
 
             // admins
             Route::resource('admins', AdminController::class);
@@ -59,15 +57,34 @@ Route::group(
         });
 
         // admin auth
-        Route::middleware('guest')->group(function () {
+        Route::middleware('guestAdmin')->group(function () {
             Route::get('admin/login', [LoginController::class, 'login'])->name('admin.login');    
             Route::post('admin/login', [LoginController::class, 'authenticate'])->name('admin.authenticate'); 
 
         });
 
-        Route::get('/{page}', [AdminController::class, 'page']);
 
-        
+        //user area
+
+        Route:Route::middleware('auth:web')->group(function () {
+
+            Route::view('/', 'user.home')->name('home');
+            Route::post('logout', [UserController::class, 'logout'])->name('logout');
+
+        //cart
+        Route::view('cart', 'user.cart')->name('cart');
+        });
+
+        //user auth
+       Route::middleware('guest:web')->group(function () {
+            Route::view('register', 'user.auth.register')->name('register');
+            Route::view('login', 'user.auth.login')->name('login');
+       });
+
+        Route::view('product', 'products');
+        Route::get('/{page}', [AdminController::class, 'page']);
     });
+
+
 
 

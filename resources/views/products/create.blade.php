@@ -8,7 +8,7 @@
                 <h6 class="modal-title">{{__('Add New Product')}}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
             </div>
                 <div class="modal-body p-4">
-                    <form wire:submit.prevent="store()" id="addForm" method="POST" autocomplete="off" enctype="multipart/form-data">
+                    <form wire:submit.prevent="store" id="addForm" method="POST" autocomplete="off" enctype="multipart/form-data">
                     {{-- 1 --}}
                     <div class="row form-group">
                         <div class="col">

@@ -39,7 +39,14 @@
             msg: message,
             type: "success"
         })
-    })
+    });
+//cart update
+window.livewire.on('cartUpdated', () => {
+        notif({
+            msg: '{{__('Shopping cart updated')}}',
+            type: "success"
+        })
+    });
 </script>
 <!-- Sticky js -->
 <script src="{{URL::asset('assets/js/sticky.js')}}"></script>

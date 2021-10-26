@@ -21,6 +21,7 @@ class ProductComponent extends Component
     public $updateMode;
     public $categories = [];
 
+
     protected $rules = [
         'name_ar' => 'required|string|max:255|min:3',
         'name_en' => 'required|string|max:255|min:3',
@@ -53,6 +54,17 @@ class ProductComponent extends Component
     public function getCategories()
     {
         $this->categories = Category::all();
+    }
+
+    public function getRepository()
+    {
+        return resolve(ProductRepositoryInterface::class);
+    }
+
+
+    public function mount(ProductRepositoryInterface $repository)
+    {
+        $this->getRepository($repository);
     }
 
     public function store(ProductRepositoryInterface $repository)
@@ -109,8 +121,6 @@ class ProductComponent extends Component
         $this->resetInputFields();
     }
 
-
-
     //delete products and images
 
     public function  setDeletedProduct($id)
@@ -119,9 +129,9 @@ class ProductComponent extends Component
         $this->product = $product;
     }
 
-    public function delete(ProductRepositoryInterface $repository)
+    public function delete()
     {
-        $repository->delete($this->product);
+        $this->getRepository()->delete($this->product);
         
         $this->emit('hideModal'); // Close model to using jquery
         $this->emit('success', __('Product Deleted Successfully'));
