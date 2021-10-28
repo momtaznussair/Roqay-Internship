@@ -3,6 +3,15 @@
         <div class="card">
             <div class="card-body mt-3">
                 <!-- Shopping Cart-->
+                @if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
                 <div class="row px-5 justify-content-between">
                     <div class="col-md-7">
                         <div class="shopping-cart" style="height: 68vh; overflow-y:scroll">
@@ -53,7 +62,7 @@
                         <div class="pt-4">
                             <h6>{{__('PRICE DETAILS')}}</h6>
                             <hr>
-                            <div class="row price-details">
+                            <div class="row price-details mb-3">
                                 <div class="col-md-6">
                                     <h6>{{__('Price')}} ({{$cartItems->count()}})</h6>
                                     <h6>{{__('Delivery Charges')}}</h6>
@@ -66,8 +75,25 @@
                                     <hr>
                                     <h6>{{'$' . $total}}</h6>
                                 </div>
-                                <a href="#" class="btn btn-warning mt-4 w-100">{{__('Proceed to checkout')}}</a>
                             </div>
+                            <form action="{{route('pay')}}" method="POST">
+                                @csrf
+                                @foreach (config('myfatoorah.available_payment_methods') as $payment_method)
+                                <div class="form-check mb-2">
+                                    <label class="form-check-label mr-3" for="{{$payment_method->PaymentMethodId}}">
+                                        <img src="{{$payment_method->image}}" style="width: 2.5rem;" class="mr-4">
+                                    </label>
+                                    <input class="form-check-input" name="paymentMethodId" type="radio" value="{{$payment_method->PaymentMethodId}}" id="{{$payment_method->PaymentMethodId}}" required>
+                                    <label class="form-check-label mr-3" for="{{$payment_method->PaymentMethodId}}">
+                                        {{ $payment_method->{'PaymentMethod_' . App::currentLocale()} }}
+                                    </label>
+                                </div>
+                                <input type="hidden" name="InvoiceValue" value="{{$total}}">
+                                @endforeach
+                                <div class="row">
+                                    <button type="submit" class="btn btn-warning mt-4 w-100">{{__('Proceed to checkout')}}</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

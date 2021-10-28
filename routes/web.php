@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductImageController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -75,13 +76,18 @@ Route::group(
         Route::view('cart', 'user.cart')->name('cart');
         });
 
+        //payment
+
+        Route::post('pay', [PaymentController::class, 'pay'])->name('pay');
+        Route::get('order-received', [PaymentController::class, 'callback']);
+        Route::view('order-failed', 'user.payment_failed');
+
         //user auth
        Route::middleware('guest:web')->group(function () {
             Route::view('register', 'user.auth.register')->name('register');
             Route::view('login', 'user.auth.login')->name('login');
        });
 
-        Route::view('product', 'products');
         Route::get('/{page}', [AdminController::class, 'page']);
     });
 
