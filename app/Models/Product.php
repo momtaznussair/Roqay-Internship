@@ -39,11 +39,11 @@ class Product extends Model
 
     public function getNameAttribute()
     {
-        return app()->isLocale('ar') ? $this->name_ar : $this->name_en;
+        return $this->{ 'name_' . app()->currentLocale() };
     }
 
     public function getDescriptionAttribute()
     {
-        return app()->isLocale('ar') ? $this->description_ar : $this->description_en;
+        return $this->{ 'description_' . app()->currentLocale() };
     }
 }

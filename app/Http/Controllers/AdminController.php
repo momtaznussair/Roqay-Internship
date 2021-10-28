@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\AdminRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -47,24 +45,14 @@ class AdminController extends Controller
     {
         $this->authorize('admin_create');
 
-        // hashing pasword
-        $password = $request->password;
-        $request->password = Hash::make($password);
-
-        //storing avatar image
-        $image = null;
-        if($request->hasFile('avatar'))
-        {
-            // $image = Storage::putFile('admins', $request->file('avatar'));
-            $image = $request->file('avatar')->store('admins');
-            $request->avatar = $image;
-        }
+        $password = $this->hashPassword(null, $request->password);
+        $avatar = $this->storeAvatar(null, $request->file('avatar'));
 
         $admin = Admin::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
-            'avatar' => $image,
+            'password' => $password,
+            'avatar' => $avatar,
         ]);
 
         // assigning roles
@@ -99,19 +87,10 @@ class AdminController extends Controller
     {
         $this->authorize('admin_edit');
 
-        // hashing pasword if exists
-        $password = $admin->password;
-        if ($request->password){
-            $password = Hash::make($request->password);
-        }
+        $password = $this->hashPassword($admin->password, $request->password);
 
         //storing avatar image
-        $avatar = $admin->avatar;
-        if($request->hasFile('avatar'))
-        {
-            Storage::delete($admin->avatar);
-            $avatar = $request->file('avatar')->store('admins');
-        }
+        $avatar = $this->storeAvatar($admin->avatar, $request->file('avatar'));
       
         $admin->update([
             'name' => $request->name,
@@ -120,6 +99,7 @@ class AdminController extends Controller
             'avatar' => $avatar,
             
         ]);
+
         // assigning roles
         $admin->assignRole($request->roles);
 
@@ -149,5 +129,30 @@ class AdminController extends Controller
         }
         return view('404');
 
+    }
+
+
+    private function hashPassword($currentPassword, $newPassword = null)
+    {
+        // hashing pasword if exists
+        if ($newPassword){
+            return Hash::make($newPassword);
+        }
+
+        return $currentPassword;
+    }
+
+    private function storeAvatar($currentAvatar, $newAvatar = null)
+    {
+         //storing avatar image
+         if($newAvatar)
+         {
+             if($currentAvatar){
+                Storage::delete($currentAvatar);
+             }
+             return $avatar = $newAvatar->store('admins');
+         }
+
+         return $currentAvatar;
     }
 }

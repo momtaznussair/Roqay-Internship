@@ -18,7 +18,7 @@ class Category extends Model
 
     public function getNameAttribute()
     {
-        return app()->isLocale('ar') ? $this->name_ar : $this->name_en;
+        return $this->{ 'name_' . app()->currentLocale() };
     }
 
     public function getImageAttribute()
