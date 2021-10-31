@@ -14,7 +14,7 @@ return [
         new PaymentMethod(2, 'فيزا / ماستر', 'VISA/MASTER', 'https://demo.myfatoorah.com/imgs/payment-methods/vm.png'),
     ]),
 
-    'CallBackUrl' => 'http://www.momtaznussair.com/order-received',
+    'CallBackUrl' => env('PAYMENT_CALLBACK_URL'),
 
-    'ErrorUrl' => 'http://www.momtaznussair.com/order-failed'
+    'ErrorUrl' => env('PAYMENT_ERROR_URL')
 ];

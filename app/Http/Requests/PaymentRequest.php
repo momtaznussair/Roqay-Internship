@@ -27,9 +27,8 @@ class PaymentRequest extends FormRequest
         $avalable_methods = config('myfatoorah.available_payment_methods')->pluck('PaymentMethodId');
 
         return [
-            'InvoiceValue' => 'required|numeric|min:0',
             'paymentMethodId' => [
-                'required',
+                Rule::requiredIf(env('PAYMENT_SERVICE') == 'myfatoora'),
                 Rule::in($avalable_methods)
             ]
         ];

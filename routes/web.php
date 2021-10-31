@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PostImageController;
 use App\Http\Controllers\ProductImageController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -49,7 +50,7 @@ Route::group(
             //posts
             Route::resource('posts', PostController::class);
             // post images
-            Route::resource('post-images', ProductImageController::class);
+            Route::resource('post-images', PostImageController::class);
             // roles
             Route::resource('roles', RoleController::class);
             // users
@@ -67,22 +68,20 @@ Route::group(
 
         //user area
 
-        Route:Route::middleware('auth:web')->group(function () {
+      Route::middleware('auth:web')->group(function () {
 
             Route::view('/', 'user.home')->name('home');
             Route::post('logout', [UserController::class, 'logout'])->name('logout');
 
-        //cart
-        Route::view('cart', 'user.cart')->name('cart');
+            //payment
+            Route::post('pay', [PaymentController::class, 'pay'])->name('pay');
+            //cart
+            Route::view('cart', 'user.cart')->name('cart');
         });
 
-        //payment
-
-        Route::post('pay', [PaymentController::class, 'pay'])->name('pay');
-        Route::get('order-received', [PaymentController::class, 'callback']);
+        Route::match(['get', 'post'], 'order-received', [PaymentController::class, 'callback']);
         Route::get('order-failed', [PaymentController::class, 'errorHandler']);
-        // Route::view('order-failed', 'user.payment_failed');
-
+        
         //user auth
        Route::middleware('guest:web')->group(function () {
             Route::view('register', 'user.auth.register')->name('register');

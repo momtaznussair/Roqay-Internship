@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\PaymentInterface;
+use App\Services\KnetService;
 use App\Services\MyFatoorahService;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +16,12 @@ class PaymentServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(PaymentInterface::class, MyFatoorahService::class);
+        $availablePaymentServices = [
+            'myfatoorah' => MyFatoorahService::class,
+            'knet' => KnetService::class
+        ];
+        
+        $this->app->bind(PaymentInterface::class, $availablePaymentServices[env('PAYMENT_SERVICE')]);
     }
 
     /**

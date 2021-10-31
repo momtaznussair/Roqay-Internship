@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\PaymentInterface;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -27,18 +28,18 @@ class MyFatoorahService implements PaymentInterface{
         $body = [
             //Fill required data
             'paymentMethodId' => $data['paymentMethodId'],
-            'InvoiceValue'    => $data['InvoiceValue'],
+            'InvoiceValue'    => Cart::initial(),
             'CustomerName'    => Auth('web')->user()->name,
             'CustomerEmail'   => Auth('web')->user()->email,
             'CallBackUrl'     => config('myfatoorah.CallBackUrl'),
             'ErrorUrl'        => config('myfatoorah.ErrorUrl'),
-            'Language'    => App::currentLocale(),
+            'Language'    =>  App::currentLocale(),
         ];
 
         $PaymentURL = Http::withHeaders($this->headers)
         ->post("$this->base_url/v2/ExecutePayment", $body)['Data']['PaymentURL'];
 
-        dd($PaymentURL);
+        return $PaymentURL;
     }
 
     public function getPaymentStatus($request){
@@ -52,7 +53,7 @@ class MyFatoorahService implements PaymentInterface{
         ->post("$this->base_url/v2/getPaymentStatus", $data)['Data'];
 
         dd($response);
-    }
+    }   
 
 }
 

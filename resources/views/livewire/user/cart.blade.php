@@ -78,18 +78,21 @@
                             </div>
                             <form action="{{route('pay')}}" method="POST">
                                 @csrf
-                                @foreach (config('myfatoorah.available_payment_methods') as $payment_method)
-                                <div class="form-check mb-2">
-                                    <label class="form-check-label mr-3" for="{{$payment_method->PaymentMethodId}}">
-                                        <img src="{{$payment_method->image}}" style="width: 2.5rem;" class="mr-4">
-                                    </label>
-                                    <input class="form-check-input" name="paymentMethodId" type="radio" value="{{$payment_method->PaymentMethodId}}" id="{{$payment_method->PaymentMethodId}}" required>
-                                    <label class="form-check-label mr-3" for="{{$payment_method->PaymentMethodId}}">
-                                        {{ $payment_method->{'PaymentMethod_' . App::currentLocale()} }}
-                                    </label>
-                                </div>
-                                <input type="hidden" name="InvoiceValue" value="{{$total}}">
-                                @endforeach
+                                    @if (env('PAYMENT_SERVICE') == 'myfatoorah')
+                                        @foreach (config('myfatoorah.available_payment_methods') as $payment_method)
+                                        <div class="form-check mb-2">
+                                            <label class="form-check-label mr-3" for="{{$payment_method->PaymentMethodId}}">
+                                                <img src="{{$payment_method->image}}" style="width: 2.5rem;" class="mr-4">
+                                            </label>
+                                            <input class="form-check-input" name="paymentMethodId" type="radio" value="{{$payment_method->PaymentMethodId}}" id="{{$payment_method->PaymentMethodId}}" required>
+                                            <label class="form-check-label mr-3" for="{{$payment_method->PaymentMethodId}}">
+                                                {{ $payment_method->{'PaymentMethod_' . App::currentLocale()} }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                    @else
+                                        <img src="https://demo.myfatoorah.com/imgs/payment-methods/kn.png" alt="knet" style="width: 4rem">
+                                    @endif
                                 <div class="row">
                                     <button type="submit" class="btn btn-warning mt-4 w-100">{{__('Proceed to checkout')}}</button>
                                 </div>

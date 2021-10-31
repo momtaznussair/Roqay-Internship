@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Contracts\PaymentInterface;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PaymentRequest;
+use App\Models\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class PaymentController extends Controller
@@ -29,14 +30,12 @@ class PaymentController extends Controller
         $transactionDetails = $this->payment->getPaymentStatus($request);
 
         //store transaction
-        Transaction::create([
-            'user_id' => Auth('web')->id(),
-            'InvoiceId' => $transactionDetails['InvoiceId'],
-            'InvoiceValue' => $transactionDetails['InvoiceValue'],
-        ]);
+        Transaction::create($transactionDetails);
         //clear cart
         Cart::destroy();
-
+        //loggin user 
+        // $user = User::findOrfail($transactionDetails['user_id']);
+        // Auth('web')->login($user);
         return view('user.payment_success');
     }
 
