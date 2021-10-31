@@ -23,7 +23,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
-if($this->app->environment('production')) {
+if(env('APP_ENV') == 'production') {
     \URL::forceScheme('https');
 }
 
