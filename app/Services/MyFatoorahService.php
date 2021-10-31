@@ -35,18 +35,23 @@ class MyFatoorahService implements PaymentInterface{
             'Language'    => App::currentLocale(),
         ];
 
-        $response = Http::withHeaders($this->headers)
-        ->post("$this->base_url/v2/ExecutePayment", $body)['Data'];
+        $PaymentURL = Http::withHeaders($this->headers)
+        ->post("$this->base_url/v2/ExecutePayment", $body)['Data']['PaymentURL'];
 
-        return $response;
+        dd($PaymentURL);
     }
 
-    public function getPaymentStatus($data){
+    public function getPaymentStatus($request){
+
+        $data = [
+            'Key' => $request->paymentId,
+            'KeyType' => 'PaymentId',
+        ];
 
         $response = Http::withHeaders($this->headers)
         ->post("$this->base_url/v2/getPaymentStatus", $data)['Data'];
 
-        return $response;
+        dd($response);
     }
 
 }

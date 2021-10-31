@@ -20,28 +20,28 @@ class PaymentController extends Controller
 
     public function pay(PaymentRequest $request)
     {
-        $response = $this->payment->executePayment($request->all());
-        return redirect($response['PaymentURL']);
+        $PaymentURL = $this->payment->executePayment($request->all());
+        return redirect($PaymentURL);
     }
 
     public function callback(Request $request)
     {
-        $data = [
-            'Key' => $request->paymentId,
-            'KeyType' => 'PaymentId',
-        ];
-
-        $response = $this->payment->getPaymentStatus($data);
+        $transactionDetails = $this->payment->getPaymentStatus($request);
 
         //store transaction
         Transaction::create([
             'user_id' => Auth('web')->id(),
-            'InvoiceId' => $response['InvoiceId'],
-            'InvoiceValue' => $response['InvoiceValue'],
+            'InvoiceId' => $transactionDetails['InvoiceId'],
+            'InvoiceValue' => $transactionDetails['InvoiceValue'],
         ]);
         //clear cart
         Cart::destroy();
 
         return view('user.payment_success');
+    }
+
+    public function errorHandler(Request $request)
+    {
+       return view('user.payment_failed');
     }
 }

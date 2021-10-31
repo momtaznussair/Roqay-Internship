@@ -80,7 +80,8 @@ Route::group(
 
         Route::post('pay', [PaymentController::class, 'pay'])->name('pay');
         Route::get('order-received', [PaymentController::class, 'callback']);
-        Route::view('order-failed', 'user.payment_failed');
+        Route::get('order-failed', [PaymentController::class, 'errorHandler']);
+        // Route::view('order-failed', 'user.payment_failed');
 
         //user auth
        Route::middleware('guest:web')->group(function () {
