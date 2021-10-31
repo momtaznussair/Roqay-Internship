@@ -21,7 +21,8 @@ class CreateAdminSeeder extends Seeder
             'name' => 'Momtaz Nussair',
             'email' => 'admin@momtaz.com',
             'password' => bcrypt('momtaznussair'),
-            ]);
+            'status' => 'active'
+        ]);
 
         // creating super admin role
         $role =  Role::create([
