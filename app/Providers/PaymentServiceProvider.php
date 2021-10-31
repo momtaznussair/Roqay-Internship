@@ -21,7 +21,8 @@ class PaymentServiceProvider extends ServiceProvider
             'knet' => KnetService::class
         ];
         
-        $this->app->bind(PaymentInterface::class, $availablePaymentServices[env('PAYMENT_SERVICE')]);
+        // $this->app->bind(PaymentInterface::class, $availablePaymentServices[env('PAYMENT_SERVICE')]);
+        $this->app->bind(PaymentInterface::class, $availablePaymentServices['knet']);
     }
 
     /**
