@@ -23,7 +23,9 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
-
+if($this->app->environment('production')) {
+    \URL::forceScheme('https');
+}
 
 Route::group(
     [
