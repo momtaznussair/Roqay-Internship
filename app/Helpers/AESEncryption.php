@@ -1,12 +1,12 @@
 <?php 
-namespace App\Classes;
+namespace App\Helpers;
 
 
 class AESEncryption {
     // AES Encryption Method Starts
 
     public static function encrypt($str) {
-
+        // Terminal resource Key is used to encrypt the response sent from Payment Gateway
         $key = config('knet.termResourceKey');
         $str = self::pkcs5_pad($str); 
         $encrypted = openssl_encrypt($str, 'AES-128-CBC', $key, OPENSSL_ZERO_PADDING, $key);

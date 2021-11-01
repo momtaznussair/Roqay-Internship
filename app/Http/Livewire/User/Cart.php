@@ -36,4 +36,9 @@ class Cart extends Component
     {
         CartItems::destroy();
     }
+
+    public function emptyCart()
+    {
+        $this->emit('error', __('Your shopping Cart is empty!'));
+    }
 }

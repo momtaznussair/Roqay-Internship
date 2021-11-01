@@ -1,11 +1,11 @@
 <?php
-namespace App\Classes;
+namespace App\Helpers;
 
 class AESDecryption {
      //Decryption Method for AES Algorithm Starts
 
     public static function decrypt($code) {
-
+        // Terminal resource Key is used to decrypt the response sent from Payment Gateway
         $key = config('knet.termResourceKey');
         $code =  self::hex2ByteArray(trim($code));
         $code= self::byteArray2String($code);

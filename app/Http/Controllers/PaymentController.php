@@ -29,13 +29,14 @@ class PaymentController extends Controller
     {
         $transactionDetails = $this->payment->getPaymentStatus($request);
 
+        if(!$transactionDetails['paid']){
+            return redirect('order-failed');
+        }
+
         //store transaction
         Transaction::create($transactionDetails);
         //clear cart
         Cart::destroy();
-        //loggin user 
-        // $user = User::findOrfail($transactionDetails['user_id']);
-        // Auth('web')->login($user);
         return view('user.payment_success');
     }
 

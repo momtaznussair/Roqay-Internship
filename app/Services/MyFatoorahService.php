@@ -3,9 +3,10 @@
 namespace App\Services;
 
 use App\Contracts\PaymentInterface;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class MyFatoorahService implements PaymentInterface{
 
@@ -38,6 +39,10 @@ class MyFatoorahService implements PaymentInterface{
         $PaymentURL = Http::withHeaders($this->headers)
         ->post("$this->base_url/v2/ExecutePayment", $body)['Data']['PaymentURL'];
 
+        if(! $PaymentURL){
+            throw new \Exception('Error getting payment url');
+        }
+        
         return $PaymentURL;
     }
 
@@ -51,6 +56,15 @@ class MyFatoorahService implements PaymentInterface{
         $response = Http::withHeaders($this->headers)
         ->post("$this->base_url/v2/getPaymentStatus", $data)['Data'];
 
+        $transactionDetails = [
+            'user_id' => Auth::user()->id,
+            'InvoiceId' => $response['InvoiceId'],
+            'InvoiceValue' => $response['InvoiceValue'],
+            'track-id' => $response['InvoiceTransactions'][0]['TrackId'],
+            'paid' => ($response['InvoiceStatus'] == "Paid") ? true : false
+        ];
+
+        return $transactionDetails;
         dd($response);
     }   
 

@@ -1,6 +1,6 @@
 <?php
 
-use App\Classes\PaymentMethod;
+use App\Helpers\PaymentMethod;
 
 return [
 

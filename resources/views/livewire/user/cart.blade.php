@@ -76,7 +76,7 @@
                                     <h6>{{'$' . $total}}</h6>
                                 </div>
                             </div>
-                            <form action="{{route('pay')}}" method="POST">
+                            <form @if($total <= 0) wire:submit.prevent="emptyCart" @endif action="{{route('pay')}}" method="POST">
                                 @csrf
                                     @if (env('PAYMENT_SERVICE') == 'myfatoorah')
                                         @foreach (config('myfatoorah.available_payment_methods') as $payment_method)
@@ -94,7 +94,8 @@
                                         <img src="https://demo.myfatoorah.com/imgs/payment-methods/kn.png" alt="knet" style="width: 4rem">
                                     @endif
                                 <div class="row">
-                                    <button type="submit" class="btn btn-warning mt-4 w-100">{{__('Proceed to checkout')}}</button>
+                                    <button @if($total <= 0) disabled  @endif
+                                     type="submit" class="btn btn-warning mt-4 w-100">{{__('Proceed to checkout')}}</button>
                                 </div>
                             </form>
                         </div>

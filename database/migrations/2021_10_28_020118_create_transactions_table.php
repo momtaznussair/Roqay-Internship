@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->unsignedBigInteger('InvoiceId');
             $table->decimal('InvoiceValue', 15, 2);
+            $table->string('track-id');
             $table->timestamps();
         });
     }

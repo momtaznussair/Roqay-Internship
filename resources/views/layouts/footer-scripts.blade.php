@@ -47,6 +47,13 @@ window.livewire.on('cartUpdated', () => {
             type: "success"
         })
     });
+//error
+Livewire.on('error', (message) => {
+        notif({
+            msg: message,
+            type: "error"
+        })
+    });
 </script>
 <!-- Sticky js -->
 <script src="{{URL::asset('assets/js/sticky.js')}}"></script>

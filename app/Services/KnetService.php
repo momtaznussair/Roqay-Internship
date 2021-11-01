@@ -4,8 +4,8 @@ namespace App\Services;
 
 use Arr;
 use Illuminate\Support\Str;
-use App\Classes\AESDecryption;
-use App\Classes\AESEncryption;
+use App\Helpers\AESDecryption;
+use App\Helpers\AESEncryption;
 use App\Contracts\PaymentInterface;
 use Illuminate\Support\Facades\App;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -56,12 +56,15 @@ class KnetService implements PaymentInterface{
         // decrypt response
         $decryptedRespons = AESDecryption::decrypt($request->trandata);
 
-        parse_str($decryptedRespons, $response_as_array);
-
+        //convert respons into array
+        parse_str($decryptedRespons, $response);
+        // dd($response);
         $transactionDetails = [
-            'user_id' => $response_as_array['udf1'],
-            'InvoiceId' => $response_as_array['paymentid'],
-            'InvoiceValue' => $response_as_array['amt']
+            'user_id' => $response['udf1'],
+            'InvoiceId' => $response['paymentid'],
+            'InvoiceValue' => $response['amt'],
+            'track_id' => $response['trackid'],
+            'paid' => $response['result'] == 'CAPTURED' ? true : false
         ];
 
         return $transactionDetails;
