@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Contracts\PaymentInterface;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class MyFatoorahService implements PaymentInterface{

@@ -90,6 +90,16 @@ Route::group(
             Route::view('login', 'user.auth.login')->name('login');
        });
 
+       //test
+       Route::get('test', function () {
+        //    sleep(5);
+        //    return Str::random(40);
+
+        $url = ['url' => env(('PAYMENT_CALLBACK_URL'))];
+
+        return urldecode(Arr::query($url));
+       });
+
         Route::get('/{page}', [AdminController::class, 'page']);
     });
 

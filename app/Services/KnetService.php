@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use Arr;
+use Illuminate\Support\Str;
 use App\Classes\AESDecryption;
 use App\Classes\AESEncryption;
 use App\Contracts\PaymentInterface;
+use Illuminate\Support\Facades\App;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class KnetService implements PaymentInterface{
@@ -19,52 +22,33 @@ class KnetService implements PaymentInterface{
 
     public function executePayment($data)
     {
-         //required data
+         //required request data
+         $data = [
+             'id' => config('knet.tranportalId'),
+             'password' => config('knet.tranportalPassword'),
+             'action' => 1, // Action Code 1 stands of Purchase transaction
+             'langid' => App::isLocale('ar') ? 'AR' : 'USA',
+             'currencycode' => 414, // KD
+             'amt' => Cart::initial(),
+             'responseURL' => config('knet.CallBackUrl'),
+             'errorURL' => config('knet.ErrorUrl'),
+             'trackid' => Str::random(13), //unique merchant tracking id
+             'udf1' => Auth('web')->id(), //user id
+         ];
 
-        // Tranportal ID
-        $TranportalId= config('knet.tranportalId');
-        $ReqTranportalId="id=".$TranportalId;
+        $requestParams = [
 
-        //Tranportal password
-        $TranportalPassword=config('knet.tranportalPassword');
-        $ReqTranportalPassword="password=".$TranportalPassword;
+            'param' => 'paymentInit',
+            'trandata' => $this->prepareTransData($data),
+            'tranportalId' => $data['id'],
+            'responseURL' => $data['responseURL'],
+            'errorURL' => $data['errorURL']
+        ];
 
-        //payment amount
-        $ReqAmount="amt=". Cart::initial();
-
-        //unique merchant track id
-        $TranTrackid=mt_rand();
-        $ReqTrackId="trackid=".$TranTrackid;
-
-        // currency KD
-        $ReqCurrency="currencycode=414";
-
-        //language [USA, AR]
-        $ReqLangid="langid=USA";
-
-        /* Action Code of the transaction, this refers to type of transaction. 
-        Action Code 1 stands of Purchase transaction  */
-        $ReqAction="action=1";
-        // user id
-        $ReqUdf1="udf1=" . Auth('web')->id();
-
-         // successful payment url
-        $ResponseUrl = config('knet.CallBackUrl');
-        $ReqResponseUrl="responseURL=".$ResponseUrl;
-
-        // failed payment url
-        $ErrorUrl=config('knet.ErrorUrl');
-        $ReqErrorUrl="errorURL=".$ErrorUrl;
-
-
-        $param=$ReqTranportalId."&".$ReqTranportalPassword."&".$ReqAction."&".$ReqLangid."&".$ReqCurrency."&".$ReqAmount."&".$ReqResponseUrl."&".$ReqErrorUrl."&".$ReqTrackId."&".$ReqUdf1;
-
-        //encrypt request query string
-        $termResourceKey= config('knet.termResourceKey');
-        $param= AESEncryption::encrypt($param,$termResourceKey)."&tranportalId=".$TranportalId."&responseURL=".$ResponseUrl."&errorURL=".$ErrorUrl;
-
+        $requestParamsAsqueryString = Arr::query($requestParams);
         //payment url
-        return $this->base_url . "&trandata=" . $param;
+        return $this->base_url .  $requestParamsAsqueryString;
+        
     }
 
     public function getPaymentStatus($request)
@@ -81,6 +65,21 @@ class KnetService implements PaymentInterface{
         ];
 
         return $transactionDetails;
+    }
+
+    /**
+     * takes $data as an array and format it as query string then encrypt it using AES helper encrypt method
+     * 
+     * @param $data 
+     */
+    private function prepareTransData(Array $data) : string
+    {
+        $dataAsQueryString = Arr::query($data);
+
+        //decode urls before encryping $data "Arr::query encode ulrs according to some RFC standard"
+        $dataAsQueryString = urldecode($dataAsQueryString);
+
+        return AESEncryption::encrypt($dataAsQueryString);
     }
 
 }
