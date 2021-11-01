@@ -31,6 +31,11 @@ class Products extends Component
         
     }
 
+    public function updating()
+    {
+        $this->resetPage();
+    }
+
     public function mount()
     {
         $this->categories = Category::all();

@@ -12,6 +12,7 @@ class Transaction extends Model
     protected $fillable = [
         'InvoiceValue',
         'user_id',
-        'InvoiceId'
+        'InvoiceId',
+        'track_id'
     ];
 }

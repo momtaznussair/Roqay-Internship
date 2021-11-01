@@ -60,7 +60,7 @@ class MyFatoorahService implements PaymentInterface{
             'user_id' => Auth::user()->id,
             'InvoiceId' => $response['InvoiceId'],
             'InvoiceValue' => $response['InvoiceValue'],
-            'track-id' => $response['InvoiceTransactions'][0]['TrackId'],
+            'track_id' => $response['InvoiceTransactions'][0]['TrackId'],
             'paid' => ($response['InvoiceStatus'] == "Paid") ? true : false
         ];
 
