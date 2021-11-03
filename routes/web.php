@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PostImageController;
 use App\Http\Controllers\ProductImageController;
+use App\Jobs\SlowJob;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -90,7 +91,7 @@ Route::group(
             Route::view('login', 'user.auth.login')->name('login');
        });
 
-        Route::get('/{page}', [AdminController::class, 'page']);
+       Route::get('/{page}', [AdminController::class, 'page']);
     });
 
 

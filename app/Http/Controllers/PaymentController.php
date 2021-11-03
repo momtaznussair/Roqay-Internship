@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Contracts\PaymentInterface;
+use App\Notifications\OrderReceived;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PaymentRequest;
 use App\Models\User;
@@ -35,6 +36,10 @@ class PaymentController extends Controller
 
         //store transaction
         Transaction::create($transactionDetails);
+        
+        // notify user about the transaction
+       User::findOrFail($transactionDetails['user_id'])->notify(new OrderReceived($transactionDetails));
+
         //clear cart
         Cart::destroy();
         return view('user.payment_success');
